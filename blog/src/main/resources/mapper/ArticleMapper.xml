@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zga.blog.dao.ArticleMapper">
+
+    <!-- resultMap最终还是要将结果映射到pojo上，type就是指定映射到哪一个pojo -->
+    <!-- id：设置ResultMap的id -->
+<!--    <resultMap type="User" id="UserResultMap">-->
+    <resultMap type="cn.zga.blog.vo.Article" id="ArticleMap">
+        <!-- <id />标签 定义主键 ,非常重要。
+         property：主键在pojo中的属性名
+         column：主键在数据库中的列名
+         jdbcType: 字段类型-->
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+
+        <!-- <result />标签 定义普通属性
+         property：pojo中的属性名
+         column：数据库中的列名
+         jdbcType: 字段类型-->
+        <result property="author" column="author" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+
+    </resultMap>
+
+
+    <select id="queryArticles" resultMap="ArticleMap">
+      select * from article
+   </select>
+
+    <select id="getArticleById" resultMap="ArticleMap">
+      select * from article where id = #{id}
+   </select>
+
+    <insert id="addArticle" parameterType="cn.zga.blog.vo.Article" useGeneratedKeys="true" keyProperty="id">
+      insert into article (author,title,content) values (#{author},#{title},#{content});
+   </insert>
+
+    <delete id="deleteArticleById" parameterType="int">
+      delete from article where id = #{id}
+   </delete>
+</mapper>

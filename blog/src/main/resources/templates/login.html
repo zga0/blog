@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style text="text/css">
+        .isHeadr{
+            height: 150px;
+            background-color: gray;
+            margin-bottom: 20px;
+        }
+        #form-con{
+            padding:10px 40px;
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid gray;
+            border-radius:10px;
+            height: 300px
+        }
+        .err{
+            display: none;
+            color: red;
+            position: relative;
+        }
+        text{
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="isHeadr">
+
+</div>
+<div class="center-container">
+    <div id="form-con">
+        <h3 style="margin: 0 auto;">Sign in to manage</h3><br>
+        <div style="text-align: left">
+            <form action="/verify" method="post">
+                <text>username:</text>
+                <text id="usn-error" class="err"></text>
+                <input type="text" class="form-control" name="login" id="login_usn" placeholder="请输入用户名"/>
+                <text>password:</text>
+                <text id="pwd-error" class="err"></text>
+                <input type="password" name="password" id="login_pwd" class="form-control" placeholder="请输入密码"/><br><br>
+                <div style="text-align: center">
+                    <input type="button" id="signin" value="sign in" name="commit" class="form-control">
+                </div>
+                <text th:text="${error}" id="hiden-error" style="display: none"></text>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        if($("#hiden-error").text() != ""){
+            $("#usn-error").text("用户名或密码不正确").show();
+        }
+        var regExpUsn=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        var $usn = $("#login_usn");
+        var regExpPwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        var $pwd = $("#login_pwd");
+        $usn.blur(function (){
+            if(!regExpUsn.test($usn.val())) {
+                $("#usn-error").text("6~12字母数字组成").show();
+            }
+        })
+        $usn.focus(function (){
+            if($("#usn-error").text() != ""){
+                $usn.val("");
+            }
+            $("#usn-error").text("").hide();
+        })
+        $pwd.blur(function (){
+            if(!regExpPwd.test($pwd.val())) {
+                $("#pwd-error").text("6~12字母数字或._组成").show();
+            }
+        })
+        $pwd.focus(function (){
+            if($("#pwd-error").text() != ""){
+                $pwd.val("");
+            }
+            $("#pwd-error").text("").hide();
+        })
+        $("#signin").click(function (){
+            $usn.focus();
+            $usn.blur();
+            $pwd.focus();
+            $pwd.blur();
+            if($("#pwd-error").text() == "" && $("#usn-error").text() == ""){
+                $("form").submit();
+            }
+        })
+
+    });
+</script>
+</body>
+</html>

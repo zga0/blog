@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    static-path-pattern: /**
+  static-locations: classpath:/static/
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 143381
+
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: cn.zga.blog.vo
+
+
+
+#  mabatis_config_file=mybatis-config.xml
+#  mapper_path=/mapper/**.xml
+#  entity_package=cn.test.demo.mybatis_demo02.entity
